@@ -24,6 +24,9 @@ module CUDA
 	# stream
 	CuStream, synchronize,
 
+	# event
+	CuEvent, create_event, destroy, record, elapsed_time, 
+
 	# execution
 	launch,
 
@@ -38,6 +41,7 @@ module CUDA
 	include("context.jl")
 	include("module.jl")
 	include("stream.jl")
+	include("event.jl")	
 	include("execution.jl")
 
 	include("arrays.jl")
