@@ -1,50 +1,50 @@
-const cuDeviceTotalMem = cuDeviceTotalMem_v2
-const cuCtxCreate = cuCtxCreate_v2
-const cuModuleGetGlobal = cuModuleGetGlobal_v2
-const cuMemGetInfo = cuMemGetInfo_v2
-const cuMemAlloc = cuMemAlloc_v2
-const cuMemAllocPitch = cuMemAllocPitch_v2
-const cuMemFree = cuMemFree_v2
-const cuMemGetAddressRange = cuMemGetAddressRange_v2
-const cuMemAllocHost = cuMemAllocHost_v2
-const cuMemHostGetDevicePointer = cuMemHostGetDevicePointer_v2
-const cuMemcpyHtoD = cuMemcpyHtoD_v2
-const cuMemcpyDtoH = cuMemcpyDtoH_v2
-const cuMemcpyDtoD = cuMemcpyDtoD_v2
-const cuMemcpyDtoA = cuMemcpyDtoA_v2
-const cuMemcpyAtoD = cuMemcpyAtoD_v2
-const cuMemcpyHtoA = cuMemcpyHtoA_v2
-const cuMemcpyAtoH = cuMemcpyAtoH_v2
-const cuMemcpyAtoA = cuMemcpyAtoA_v2
-const cuMemcpyHtoAAsync = cuMemcpyHtoAAsync_v2
-const cuMemcpyAtoHAsync = cuMemcpyAtoHAsync_v2
-const cuMemcpy2D = cuMemcpy2D_v2
-const cuMemcpy2DUnaligned = cuMemcpy2DUnaligned_v2
-const cuMemcpy3D = cuMemcpy3D_v2
-const cuMemcpyHtoDAsync = cuMemcpyHtoDAsync_v2
-const cuMemcpyDtoHAsync = cuMemcpyDtoHAsync_v2
-const cuMemcpyDtoDAsync = cuMemcpyDtoDAsync_v2
-const cuMemcpy2DAsync = cuMemcpy2DAsync_v2
-const cuMemcpy3DAsync = cuMemcpy3DAsync_v2
-const cuMemsetD8 = cuMemsetD8_v2
-const cuMemsetD16 = cuMemsetD16_v2
-const cuMemsetD32 = cuMemsetD32_v2
-const cuMemsetD2D8 = cuMemsetD2D8_v2
-const cuMemsetD2D16 = cuMemsetD2D16_v2
-const cuMemsetD2D32 = cuMemsetD2D32_v2
-const cuArrayCreate = cuArrayCreate_v2
-const cuArrayGetDescriptor = cuArrayGetDescriptor_v2
-const cuArray3DCreate = cuArray3DCreate_v2
-const cuArray3DGetDescriptor = cuArray3DGetDescriptor_v2
-const cuTexRefSetAddress = cuTexRefSetAddress_v2
-const cuTexRefGetAddress = cuTexRefGetAddress_v2
-const cuGraphicsResourceGetMappedPointer = cuGraphicsResourceGetMappedPointer_v2
-const cuCtxDestroy = cuCtxDestroy_v2
-const cuCtxPopCurrent = cuCtxPopCurrent_v2
-const cuCtxPushCurrent = cuCtxPushCurrent_v2
-const cuStreamDestroy = cuStreamDestroy_v2
-const cuEventDestroy = cuEventDestroy_v2
-const cuTexRefSetAddress2D = cuTexRefSetAddress2D_v3
+# const cuDeviceTotalMem = cuDeviceTotalMem_v2
+# const cuCtxCreate = cuCtxCreate_v2
+# const cuModuleGetGlobal = cuModuleGetGlobal_v2
+# const cuMemGetInfo = cuMemGetInfo_v2
+# const cuMemAlloc = cuMemAlloc_v2
+# const cuMemAllocPitch = cuMemAllocPitch_v2
+# const cuMemFree = cuMemFree_v2
+# const cuMemGetAddressRange = cuMemGetAddressRange_v2
+# const cuMemAllocHost = cuMemAllocHost_v2
+# const cuMemHostGetDevicePointer = cuMemHostGetDevicePointer_v2
+# const cuMemcpyHtoD = cuMemcpyHtoD_v2
+# const cuMemcpyDtoH = cuMemcpyDtoH_v2
+# const cuMemcpyDtoD = cuMemcpyDtoD_v2
+# const cuMemcpyDtoA = cuMemcpyDtoA_v2
+# const cuMemcpyAtoD = cuMemcpyAtoD_v2
+# const cuMemcpyHtoA = cuMemcpyHtoA_v2
+# const cuMemcpyAtoH = cuMemcpyAtoH_v2
+# const cuMemcpyAtoA = cuMemcpyAtoA_v2
+# const cuMemcpyHtoAAsync = cuMemcpyHtoAAsync_v2
+# const cuMemcpyAtoHAsync = cuMemcpyAtoHAsync_v2
+# const cuMemcpy2D = cuMemcpy2D_v2
+# const cuMemcpy2DUnaligned = cuMemcpy2DUnaligned_v2
+# const cuMemcpy3D = cuMemcpy3D_v2
+# const cuMemcpyHtoDAsync = cuMemcpyHtoDAsync_v2
+# const cuMemcpyDtoHAsync = cuMemcpyDtoHAsync_v2
+# const cuMemcpyDtoDAsync = cuMemcpyDtoDAsync_v2
+# const cuMemcpy2DAsync = cuMemcpy2DAsync_v2
+# const cuMemcpy3DAsync = cuMemcpy3DAsync_v2
+# const cuMemsetD8 = cuMemsetD8_v2
+# const cuMemsetD16 = cuMemsetD16_v2
+# const cuMemsetD32 = cuMemsetD32_v2
+# const cuMemsetD2D8 = cuMemsetD2D8_v2
+# const cuMemsetD2D16 = cuMemsetD2D16_v2
+# const cuMemsetD2D32 = cuMemsetD2D32_v2
+# const cuArrayCreate = cuArrayCreate_v2
+# const cuArrayGetDescriptor = cuArrayGetDescriptor_v2
+# const cuArray3DCreate = cuArray3DCreate_v2
+# const cuArray3DGetDescriptor = cuArray3DGetDescriptor_v2
+# const cuTexRefSetAddress = cuTexRefSetAddress_v2
+# const cuTexRefGetAddress = cuTexRefGetAddress_v2
+# const cuGraphicsResourceGetMappedPointer = cuGraphicsResourceGetMappedPointer_v2
+# const cuCtxDestroy = cuCtxDestroy_v2
+# const cuCtxPopCurrent = cuCtxPopCurrent_v2
+# const cuCtxPushCurrent = cuCtxPushCurrent_v2
+# const cuStreamDestroy = cuStreamDestroy_v2
+# const cuEventDestroy = cuEventDestroy_v2
+# const cuTexRefSetAddress2D = cuTexRefSetAddress2D_v3
 const CUDA_VERSION = 5050
 const CU_IPC_HANDLE_SIZE = 64
 const CU_MEMHOSTALLOC_PORTABLE = 0x01
@@ -67,15 +67,35 @@ const CU_TRSF_SRGB = 0x10
 const CU_PARAM_TR_DEFAULT = -1
 typealias CUdeviceptr Culonglong
 typealias CUdevice Cint
+type CUctx_st
+end
 typealias CUcontext Ptr{CUctx_st}
+type CUmod_st
+end
 typealias CUmodule Ptr{CUmod_st}
+type CUfunc_st
+end
 typealias CUfunction Ptr{CUfunc_st}
+type CUarray_st
+end
 typealias CUarray Ptr{CUarray_st}
+type CUmipmappedArray_st
+end
 typealias CUmipmappedArray Ptr{CUmipmappedArray_st}
+type CUtexref_st
+end
 typealias CUtexref Ptr{CUtexref_st}
+type CUsurfref_st
+end
 typealias CUsurfref Ptr{CUsurfref_st}
+type CUevent_st
+end
 typealias CUevent Ptr{CUevent_st}
+type CUstream_st
+end
 typealias CUstream Ptr{CUstream_st}
+type CUgraphicsResource_st
+end
 typealias CUgraphicsResource Ptr{CUgraphicsResource_st}
 typealias CUtexObject Culonglong
 typealias CUsurfObject Culonglong
@@ -680,6 +700,8 @@ const CU_JIT_INPUT_OBJECT = 3
 const CU_JIT_INPUT_LIBRARY = 4
 const CU_JIT_NUM_INPUT_TYPES = 5
 # end enum CUjitInputType
+type CUlinkState_st
+end
 typealias CUlinkState Ptr{CUlinkState_st}
 # begin enum CUgraphicsRegisterFlags_enum
 typealias CUgraphicsRegisterFlags_enum Uint32
@@ -1040,12 +1062,12 @@ type CUDA_ARRAY3D_DESCRIPTOR
 end
 type CUDA_RESOURCE_DESC_st
     resType::CUresourcetype
-    res::
+    #res::
     flags::Uint32
 end
 type CUDA_RESOURCE_DESC
     resType::CUresourcetype
-    res::
+    #res::
     flags::Uint32
 end
 immutable Array_3_CUaddress_mode

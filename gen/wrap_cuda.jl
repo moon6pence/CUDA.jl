@@ -12,7 +12,7 @@ using Clang.wrap_c
 context = wrap_c.init(; 
 	output_file="gen_libcuda.jl",	# julia source with functions
 	common_file="gen_libcuda_h.jl", # julia source with types, defs
-	header_library=x->"libcuda", 	# library name to use in ccall
+	header_library=x->":libcuda", 	# library name to use in ccall
 #	clang_includes=includes,		# headers directory
 	header_wrapped=(x,y)->(false));	# only wrap cuda.h itself
 
