@@ -20,3 +20,9 @@ context.options.wrap_structs = true
 
 # TODO: check CUDA install directory
 wrap_c.wrap_c_headers(context, ["/usr/local/cuda/include/cuda.h"])
+
+# Replace ccall to @cucall macro
+text = readall("gen_libcuda.jl")
+open("gen_libcuda.jl", "w") do file
+	write(file, replace(text, "ccall(", "@cucall("))
+end
