@@ -8,7 +8,7 @@ len = 1024 * 1024
 # thread counts in thread block
 block = 256
 
-try
+# try
 	# create context
 	dev = CuDevice(0)
 	ctx = create_context(dev)
@@ -67,10 +67,10 @@ try
 	# destroy context
 	destroy(ctx)
 
-catch err
-	if isa(err, CuDriverError)
-		println("$err: $(description(err))")
-	else
-		throw(err)
-	end
-end
+# catch err
+# 	if isa(err, CuDriverError)
+# 		println("$err: $(description(err))")
+# 	else
+# 		throw(err)
+# 	end
+# end

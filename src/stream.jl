@@ -11,10 +11,10 @@ function null_stream()
 end
 
 function destroy(s::CuStream)
-    @cucall(cuStreamDestroy, (Ptr{Void},), s.handle)
+    @cucall(:cuStreamDestroy, (Ptr{Void},), s.handle)
 end
 
 function synchronize(s::CuStream)
-    @cucall(cuStreamSynchronize, (Ptr{Void},), s.handle)
+    @cucall(:cuStreamSynchronize, (Ptr{Void},), s.handle)
 end
 

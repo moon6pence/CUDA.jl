@@ -14,7 +14,7 @@ macro cucall(fv, argtypes, args...)
 end
 
 function initialize()
-    @cucall(cuInit, (Cint,), 0)
+    @cucall(:cuInit, (Cint,), 0)
     println("CUDA Driver Initialized")
 end
 
@@ -25,7 +25,7 @@ initialize()
 
 function driver_version()
     a = Cint[0]
-    @cucall(cuDriverGetVersion, (Ptr{Cint},), a)
+    @cucall(:cuDriverGetVersion, (Ptr{Cint},), a)
     return int(a[1])
 end
 

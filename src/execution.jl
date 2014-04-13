@@ -27,7 +27,7 @@ function launch(f::CuFunction, grid::CuDim, block::CuDim, args::Tuple; shmem_byt
 
     kernel_args = [cubox(arg) for arg in args]
 
-    @cucall(cuLaunchKernel, (
+    @cucall(:cuLaunchKernel, (
         Ptr{Void},  # function
         Cuint,  # grid dim x
         Cuint,  # grid dim y

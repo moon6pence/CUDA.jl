@@ -1,5 +1,4 @@
 module CUDA
-
     import Base.length, Base.size
     import Base.copy!
 
@@ -33,9 +32,11 @@ module CUDA
     # arrays
     CuPtr, CuArray, free, to_host
 
+    include("../gen/gen_libcuda_h.jl")
+    include("../gen/gen_libcuda.jl")
 
     include("errors.jl")
-    include("funmap.jl")
+    # include("funmap.jl")
 
     include("base.jl")
     include("devices.jl")

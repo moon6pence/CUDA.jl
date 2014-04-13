@@ -13,23 +13,23 @@ const CTX_LMEM_RESIZE_TO_MAX = 0x10
 
 function create_context(dev::CuDevice, flags::Integer)
     a = Array(Ptr{Void}, 1)
-    @cucall(cuCtxCreate, (Ptr{Ptr{Void}}, Cuint, Cint), a, flags, dev.handle)
+    @cucall(:cuCtxCreate, (Ptr{Ptr{Void}}, Cuint, Cint), a, flags, dev.handle)
     return CuContext(a[1])
 end
 
 create_context(dev::CuDevice) = create_context(dev, 0)
 
 function destroy(ctx::CuContext)
-    @cucall(cuCtxDestroy, (Ptr{Void},), ctx.handle)
+    @cucall(:cuCtxDestroy, (Ptr{Void},), ctx.handle)
 end
 
 function push(ctx::CuContext)
-    @cucall(cuCtxPushCurrent, (Ptr{Void},), ctx.handle)
+    @cucall(:cuCtxPushCurrent, (Ptr{Void},), ctx.handle)
 end
 
 function pop(ctx::CuContext)
     a = Array(Ptr{Void}, 1)
-    @cucall(cuCtxPopCurrent, (Ptr{Ptr{Void}},), a)
+    @cucall(:cuCtxPopCurrent, (Ptr{Ptr{Void}},), a)
     return CuContext(a[1])
 end
 

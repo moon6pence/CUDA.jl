@@ -14,12 +14,12 @@ cubox(p::CuPtr) = cubox(p.p)
 function cualloc(T::Type, len::Integer)
     a = CUdeviceptr[0]
     nbytes = int(len) * sizeof(T)
-    @cucall(cuMemAlloc, (Ptr{CUdeviceptr}, Csize_t), a, nbytes)
+    @cucall(:cuMemAlloc, (Ptr{CUdeviceptr}, Csize_t), a, nbytes)
     return CuPtr(a[1])
 end
 
 function free(p::CuPtr)
-    @cucall(cuMemFree, (CUdeviceptr,), p.p)
+    @cucall(:cuMemFree, (CUdeviceptr,), p.p)
 end
 
 isnull(p::CuPtr) = (p.p == 0)
@@ -73,7 +73,7 @@ function copy!{T}(dst::Array{T}, src::CuArray{T})
         throw(ArgumentError("Inconsistent array length."))
     end
     nbytes = length(src) * sizeof(T)
-    @cucall(cuMemcpyDtoH, (Ptr{Void}, CUdeviceptr, Csize_t), pointer(dst), src.ptr.p, nbytes)
+    @cucall(:cuMemcpyDtoH, (Ptr{Void}, CUdeviceptr, Csize_t), pointer(dst), src.ptr.p, nbytes)
     return dst
 end
 
@@ -82,7 +82,7 @@ function copy!{T}(dst::CuArray{T}, src::Array{T})
         throw(ArgumentError("Inconsistent array length."))
     end
     nbytes = length(src) * sizeof(T)
-    @cucall(cuMemcpyHtoD, (CUdeviceptr, Ptr{Void}, Csize_t), dst.ptr.p, pointer(src), nbytes)
+    @cucall(:cuMemcpyHtoD, (CUdeviceptr, Ptr{Void}, Csize_t), dst.ptr.p, pointer(src), nbytes)
     return dst
 end
 
