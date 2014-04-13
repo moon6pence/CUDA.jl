@@ -32,9 +32,11 @@ module CUDA
     # arrays
     CuPtr, CuArray, free, to_host
 
-    include("../gen/gen_libcuda_h.jl")
-    include("../gen/gen_libcuda.jl")
-
+    # Generated wrappers with prefix lib
+    include("libcuda.jl")
+    import .CUDA_gen
+    const lib = CUDA_gen
+    
     include("errors.jl")
     # include("funmap.jl")
 
