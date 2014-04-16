@@ -1,29 +1,25 @@
 # CUDA module management
 
 immutable CuModule
-    handle::Ptr{Void}
+    handle::lib.CUmodule
 
     function CuModule(filename::ASCIIString)
-        a = Array(Ptr{Void}, 1)
-        @cucall(:cuModuleLoad, (Ptr{Ptr{Void}}, Ptr{Cchar}), a, filename)
+        a = Array(lib.CUmodule, 1)
+        lib.cuModuleLoad(pointer(a), pointer(filename))
         new(a[1])
     end
 end
 
 function unload(md::CuModule)
-    @cucall(:cuModuleUnload, (Ptr{Void},), md.handle)
+    lib.cuModuleUnload(md.handle)
 end
 
-
 immutable CuFunction
-    handle::Ptr{Void}
+    handle::lib.CUfunction
 
     function CuFunction(md::CuModule, name::ASCIIString)
-        a = Array(Ptr{Void}, 1)
-        @cucall(:cuModuleGetFunction, (Ptr{Ptr{Void}}, Ptr{Void}, Ptr{Cchar}),
-            a, md.handle, name)
+        a = Array(lib.CUfunction, 1)
+        lib.cuModuleGetFunction(pointer(a), md.handle, pointer(name))
         new(a[1])
     end
 end
-
-

@@ -13,6 +13,16 @@ context = create_context(device)
 println("context = $(context)")
 @test context.handle != 0
 
+md = CuModule("../examples/vadd.ptx")
+println("md = $(md)")
+@test md != 0
+
+func = CuFunction(md, "vadd")
+println("func = $(func)")
+@test func != 0
+
+unload(md)
+
 push(context)
 context = pop(context)
 destroy(context)
