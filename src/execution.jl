@@ -14,31 +14,29 @@ get_dim_z(g::(Int, Int, Int)) = g[3]
 
 typealias CuDim Union(Int, (Int, Int), (Int, Int, Int))
 
-# Stream management
+# box a variable into array to get pointer
+cubox{T}(x::T) = T[x]
+cubox(p::CuPtr) = cubox(p.p)
+cubox(a::CuArray) = cubox(a.ptr)
+
+# TODO: Stream management
 
 function launch(f::CuFunction, grid::CuDim, block::CuDim, args::Tuple; shmem_bytes::Int=4, stream::CuStream=null_stream())
-    gx = get_dim_x(grid)
-    gy = get_dim_y(grid)
-    gz = get_dim_z(grid)
+    gx = uint32(get_dim_x(grid))
+    gy = uint32(get_dim_y(grid))
+    gz = uint32(get_dim_z(grid))
 
-    tx = get_dim_x(block)
-    ty = get_dim_y(block)
-    tz = get_dim_z(block)
+    tx = uint32(get_dim_x(block))
+    ty = uint32(get_dim_y(block))
+    tz = uint32(get_dim_z(block))
 
     kernel_args = [cubox(arg) for arg in args]
 
-    @cucall(cuLaunchKernel, (
-        Ptr{Void},  # function
-        Cuint,  # grid dim x
-        Cuint,  # grid dim y
-        Cuint,  # grid dim z
-        Cuint,  # block dim x
-        Cuint,  # block dim y
-        Cuint,  # block dim z
-        Cuint,  # shared memory bytes,
-        Ptr{Void}, # stream
-        Ptr{Ptr{Void}}, # kernel parameters,
-        Ptr{Ptr{Void}}), # extra parameters
-        f.handle, gx, gy, gz, tx, ty, tz, shmem_bytes, stream.handle, kernel_args, 0)
+    lib.cuLaunchKernel(
+        f.handle, 
+        gx, gy, gz, 
+        tx, ty, tz, 
+        uint32(shmem_bytes), stream.handle, 
+        pointer(convert(Array{Ptr{Void}}, kernel_args)), 
+        convert(Ptr{Ptr{Void}}, 0))
 end
-

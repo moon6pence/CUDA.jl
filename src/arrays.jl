@@ -1,30 +1,24 @@
 # Arrays on GPU
 
-typealias CUdeviceptr Uint64
-
 immutable CuPtr
-    p::CUdeviceptr
+    p::lib.CUdeviceptr
 
-    CuPtr() = new(convert(CUdeviceptr, 0))
-    CuPtr(p::CUdeviceptr) = new(p)
+    CuPtr() = new(convert(lib.CUdeviceptr, 0))
+    CuPtr(p::lib.CUdeviceptr) = new(p)
 end
 
-cubox(p::CuPtr) = cubox(p.p)
-
 function cualloc(T::Type, len::Integer)
-    a = CUdeviceptr[0]
-    nbytes = int(len) * sizeof(T)
-    @cucall(cuMemAlloc, (Ptr{CUdeviceptr}, Csize_t), a, nbytes)
+    a = lib.CUdeviceptr[0]
+    nbytes = len * sizeof(T)
+    lib.cuMemAlloc_v2(pointer(a), int32(nbytes))
     return CuPtr(a[1])
 end
 
 function free(p::CuPtr)
-    @cucall(cuMemFree, (CUdeviceptr,), p.p)
+    lib.cuMemFree_v2(p.p)
 end
 
 isnull(p::CuPtr) = (p.p == 0)
-
-
 
 #################################################
 #
@@ -50,11 +44,12 @@ function CuArray{N}(T::Type, shape::NTuple{N,Int})
     CuArray{T,N}(p, shape, n)
 end
 
-cubox(a::CuArray) = cubox(a.ptr)
-
 length(g::CuArray) = g.len
+
 size(g::CuArray) = g.shape
+
 ndims{T,N}(g::CuArray{T,N}) = N
+
 eltype{T,N}(g::CuArray{T,N}) = T
 
 function size{T,N}(g::CuArray{T,N}, d::Integer)
@@ -73,7 +68,7 @@ function copy!{T}(dst::Array{T}, src::CuArray{T})
         throw(ArgumentError("Inconsistent array length."))
     end
     nbytes = length(src) * sizeof(T)
-    @cucall(cuMemcpyDtoH, (Ptr{Void}, CUdeviceptr, Csize_t), pointer(dst), src.ptr.p, nbytes)
+    lib.cuMemcpyDtoH_v2(convert(Ptr{Void}, pointer(dst)), src.ptr.p, int32(nbytes))
     return dst
 end
 
@@ -82,11 +77,9 @@ function copy!{T}(dst::CuArray{T}, src::Array{T})
         throw(ArgumentError("Inconsistent array length."))
     end
     nbytes = length(src) * sizeof(T)
-    @cucall(cuMemcpyHtoD, (CUdeviceptr, Ptr{Void}, Csize_t), dst.ptr.p, pointer(src), nbytes)
+    lib.cuMemcpyHtoD_v2(dst.ptr.p, convert(Ptr{Void}, pointer(src)), int32(nbytes))
     return dst
 end
 
 CuArray{T,N}(a::Array{T,N}) = copy!(CuArray(T, size(a)), a)
 to_host{T}(g::CuArray{T}) = copy!(Array(T, size(g)), g)
-
-

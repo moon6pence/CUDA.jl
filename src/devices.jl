@@ -3,19 +3,18 @@
 function devcount()
     # Get the number of CUDA-capable CuDevices
     a = Cint[0]
-    @cucall(cuDeviceGetCount, (Ptr{Cint},), a)
+    lib.cuDeviceGetCount(pointer(a))
     return int(a[1])
 end
 
-
 immutable CuDevice
     ordinal::Cint
-    handle::Cint
+    handle::lib.CUdevice
 
     function CuDevice(i::Int)
         ordinal = convert(Cint, i)
-        a = Cint[0]
-        @cucall(cuDeviceGet, (Ptr{Cint}, Cint), a, ordinal)
+        a = lib.CUdevice[0]
+        lib.cuDeviceGet(pointer(a), ordinal)
         handle = a[1]
         new(ordinal, handle)
     end
@@ -27,21 +26,22 @@ immutable CuCapability
 end
 
 function name(dev::CuDevice)
-    const buflen = 256
-    buf = Array(Cchar, buflen)
-    @cucall(cuDeviceGetName, (Ptr{Cchar}, Cint, Cint), buf, buflen, dev.handle)
+    const buflen = int32(256)
+    buf = Array(Uint8, buflen)
+    lib.cuDeviceGetName(pointer(buf), buflen, dev.handle)
     bytestring(pointer(buf))
 end
 
 function totalmem(dev::CuDevice)
-    a = Csize_t[0]
-    @cucall(cuDeviceTotalMem, (Ptr{Csize_t}, Cint), a, dev.handle)
+    a = Cint[0]
+    lib.cuDeviceTotalMem_v2(pointer(a), dev.handle)
     return int(a[1])
 end
 
 function attribute(dev::CuDevice, attrcode::Integer)
     a = Cint[0]
-    @cucall(cuDeviceGetAttribute, (Ptr{Cint}, Cint, Cint), a, attrcode, dev.handle)
+    lib.cuDeviceGetAttribute(
+        pointer(a), convert(lib.CUdevice_attribute, attrcode), dev.handle)
     return int(a[1])
 end
 
@@ -63,4 +63,3 @@ function list_devices()
         println("device[$i]: $(nam), capability $(cap.major).$(cap.minor), total mem = $tmem MB")
     end
 end
-
