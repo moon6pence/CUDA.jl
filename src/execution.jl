@@ -14,6 +14,11 @@ get_dim_z(g::(Int, Int, Int)) = g[3]
 
 typealias CuDim Union(Int, (Int, Int), (Int, Int, Int))
 
+# box a variable into array to get pointer
+cubox{T}(x::T) = T[x]
+cubox(p::CuPtr) = cubox(p.p)
+cubox(a::CuArray) = cubox(a.ptr)
+
 # TODO: Stream management
 
 function launch(f::CuFunction, grid::CuDim, block::CuDim, args::Tuple; shmem_bytes::Int=4, stream::CuStream=null_stream())
