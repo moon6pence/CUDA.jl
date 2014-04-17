@@ -1,6 +1,5 @@
 # CUDA errors
 
-
 const driver_error_descriptions = (Int=>ASCIIString)[
     0 => "Success",
     1 => "Invalid value",
@@ -61,9 +60,13 @@ const driver_error_descriptions = (Int=>ASCIIString)[
     999 => "Unknown error"
 ]
 
-
 immutable CuDriverError
     code::Int
+    description::String
+
+    function CuDriverError(code::Int)
+        new(code, driver_error_descriptions[code])
+    end
 end
 
 description(err::CuDriverError) = driver_error_descriptions[err.code]

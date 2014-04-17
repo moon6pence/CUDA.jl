@@ -45,3 +45,11 @@ unload(md)
 push(context)
 context = pop(context)
 destroy(context)
+
+# Test CuDriverError
+try
+	md = CuModule("../examples/vadd.ptx")
+catch error
+	@test isa(error, CuDriverError)
+	println("Test CuDriverError: $(error)")
+end

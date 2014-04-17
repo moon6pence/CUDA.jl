@@ -29,6 +29,8 @@ module CUDA
     # event
     CuEvent, create_event, destroy, record, elapsed_time
 
+    include("errors.jl")
+    
     # Generated wrappers with prefix lib
     include("libcuda.jl")
     import .CUDA_gen

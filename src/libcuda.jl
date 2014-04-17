@@ -2,7 +2,7 @@
 
 module CUDA_gen
 
-include("errors.jl")
+using CUDA.CuDriverError
 
 macro cucall(func, rettype, argtypes, args...)
 	quote
