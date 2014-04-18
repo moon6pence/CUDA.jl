@@ -17,11 +17,11 @@ module CUDA
     # module
     CuModule, CuFunction, unload,
 
+    # stream
+    CuStream, create_stream, destroy, synchronize,
+
     # arrays
     CuPtr, CuArray, free, to_host, 
-
-    # stream
-    CuStream, synchronize,
 
     # execution
     launch,
@@ -40,8 +40,8 @@ module CUDA
     include("devices.jl")
     include("context.jl")
     include("module.jl")
-    include("arrays.jl")
     include("stream.jl")
+    include("arrays.jl")
     include("execution.jl")
     include("event.jl") 
 end

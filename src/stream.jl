@@ -2,20 +2,23 @@
 
 immutable CuStream
     handle::lib.CUstream
-    blocking::Bool
-    priority::Int
 end
 
 function null_stream()
-    CuStream(convert(lib.CUstream, 0), true, 0)
+    CuStream(convert(lib.CUstream, 0))
 end
 
-# NOT TESTED
+function create_stream()
+	a = lib.CUstream[0]
+	lib.cuStreamCreate(pointer(a), uint32(0))
+	return CuStream(a[1])
+end
+
 function destroy(s::CuStream)
-	lib.cuStreamDestroy(s.handle)
+	lib.cuStreamDestroy_v2(s.handle)
 end
 
 # NOT TESTED
 function synchronize(s::CuStream)
-	lib.cuStreamDestroy(s.handle)
+	lib.cuStreamSynchronize(s.handle)
 end

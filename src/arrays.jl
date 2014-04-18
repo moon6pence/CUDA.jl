@@ -72,6 +72,15 @@ function copy!{T}(dst::Array{T}, src::CuArray{T})
     return dst
 end
 
+function copy!{T}(dst::Array{T}, src::CuArray{T}, stream::CuStream)
+    if length(dst) != length(src)
+        throw(ArgumentError("Inconsistent array length."))
+    end
+    nbytes = length(src) * sizeof(T)
+    lib.cuMemcpyDtoHAsync_v2(convert(Ptr{Void}, pointer(dst)), src.ptr.p, int32(nbytes), stream.handle)
+    return dst
+end
+
 function copy!{T}(dst::CuArray{T}, src::Array{T})
     if length(dst) != length(src)
         throw(ArgumentError("Inconsistent array length."))
@@ -81,5 +90,17 @@ function copy!{T}(dst::CuArray{T}, src::Array{T})
     return dst
 end
 
+function copy!{T}(dst::CuArray{T}, src::Array{T}, stream::CuStream)
+    if length(dst) != length(src)
+        throw(ArgumentError("Inconsistent array length."))
+    end
+    nbytes = length(src) * sizeof(T)
+    lib.cuMemcpyHtoDAsync_v2(dst.ptr.p, convert(Ptr{Void}, pointer(src)), int32(nbytes), stream.handle)
+    return dst
+end
+
 CuArray{T,N}(a::Array{T,N}) = copy!(CuArray(T, size(a)), a)
+CuArray{T,N}(a::Array{T,N}, stream::CuStream) = copy!(CuArray(T, size(a)), a, stream)
+
 to_host{T}(g::CuArray{T}) = copy!(Array(T, size(g)), g)
+to_host{T}(g::CuArray{T}, stream::CuStream) = copy!(Array(T, size(g)), g, stream)

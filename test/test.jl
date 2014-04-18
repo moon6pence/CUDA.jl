@@ -40,6 +40,33 @@ a3_d = CuArray(a3)
 println(a3_d)
 @test a3 == to_host(a3_d)
 
+stream = create_stream()
+synchronize(stream)
+destroy(stream)
+
+# test vecAdd kernel with stream
+stream = create_stream()
+siz = 1024
+
+a = round(rand(Float32, siz) * 100)
+b = round(rand(Float32, siz) * 100)
+ga = CuArray(a, stream)
+gb = CuArray(b, stream)
+gc = CuArray(Float32, siz)
+
+launch(func, div(siz, 256), 256, (ga, gb, gc), stream=stream)
+c = to_host(gc, stream)
+
+# TODO: check it is really async
+synchronize(stream)
+@test c == a + b
+
+free(ga)
+free(gb)
+free(gc)
+
+@test c == a + b
+
 unload(md)
 
 push(context)
